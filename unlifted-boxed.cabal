@@ -1,0 +1,65 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
+
+name:           unlifted-boxed
+version:        0.1.0.0
+description:    Try and test unlifted user data type performance
+homepage:       https://github.com/githubuser/unlifted-boxed#readme
+bug-reports:    https://github.com/githubuser/unlifted-boxed/issues
+author:         Daniil Iaitskov
+maintainer:     dyaitskov@gmail.com
+copyright:      2022 Daniil Iaitskov
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/unlifted-boxed
+
+library
+  exposed-modules:
+      UnliftedBoxed
+  other-modules:
+      Paths_unlifted_boxed
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , criterion >=1.5.13.0
+  default-language: Haskell2010
+
+executable unlifted-boxed-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_unlifted_boxed
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , criterion >=1.5.13.0
+    , unlifted-boxed
+  default-language: Haskell2010
+
+test-suite unlifted-boxed-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_unlifted_boxed
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , criterion
+    , deepseq
+    , random
+    , unlifted-boxed
+  default-language: Haskell2010

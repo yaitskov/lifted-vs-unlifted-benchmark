@@ -1,0 +1,52 @@
+name:                unlifted-boxed
+version:             0.1.0.0
+github:              "githubuser/unlifted-boxed"
+license:             BSD3
+author:              "Daniil Iaitskov"
+maintainer:          "dyaitskov@gmail.com"
+copyright:           "2022 Daniil Iaitskov"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Try and test unlifted user data type performance
+
+dependencies:
+- base >= 4.7 && < 5
+- criterion >= 1.5.13.0
+
+library:
+  source-dirs: src
+
+executables:
+  unlifted-boxed-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - unlifted-boxed
+
+tests:
+  unlifted-boxed-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - unlifted-boxed
+    - criterion
+    - random
+    - deepseq
