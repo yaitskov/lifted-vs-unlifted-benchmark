@@ -19,9 +19,11 @@ fromLiftedList [] _ = UnNil
 fromLiftedList (h:t) f = UnCons (f h) (fromLiftedList t f)
 
 {-# INLINE foldlUn #-}
-foldlUn :: forall (a :: TYPE (BoxedRep Unlifted)) (b :: TYPE (BoxedRep Unlifted)) . (b -> a -> b) -> b -> MyUnList a -> b
-foldlUn _ b UnNil = b
-foldlUn f b (UnCons a t) = foldlUn f (f b a) t
+foldlUn :: forall (a :: UnliftedType) (b :: UnliftedType) . (b -> a -> b) -> b -> MyUnList a -> b
+foldlUn f = go
+  where
+    go b UnNil = b
+    go b (UnCons a t) = go (f b a) t
 
 data MyUnliftedBoxed :: TYPE (BoxedRep Unlifted) where
   STrue :: MyUnliftedBoxed
@@ -37,15 +39,18 @@ show' SFalse = "SFalse"
 --   SFalse == SFalse = True
 --   _ == _ = False
 
+{-# INLINE toBool' #-}
 toBool' :: MyUnliftedBoxed -> Bool
 toBool' SFalse = False
 toBool' STrue = True
 
+
 fromBool' ::  Bool -> MyUnliftedBoxed
-fromBool' False  =SFalse
+fromBool' False = SFalse
 fromBool'  True = STrue
 
 
+{-# INLINE sAnd #-}
 sAnd :: MyUnliftedBoxed -> MyUnliftedBoxed -> MyUnliftedBoxed
 sAnd STrue s = s
 sAnd SFalse _ = SFalse
