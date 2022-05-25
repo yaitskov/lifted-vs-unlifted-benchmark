@@ -5,6 +5,7 @@ import UnliftedBoxed
 import System.Random as SR
 import Control.DeepSeq
 import Control.Exception (evaluate)
+import Data.List (foldl')
 
 main :: IO ()
 main = do
@@ -18,6 +19,9 @@ main = do
   defaultMain [
     bgroup "Fold Lifted" [
       bench "Left" $ whnf (foldl @[] (&&) True) liftedBools
+    ],
+    bgroup "Fold Lifted Prime" [
+      bench "Left" $ whnf (foldl' @[] (&&) True) liftedBools
     ],
     bgroup "Fold Unlifted" [
       bench "Left" $ whnf (\_x -> toBool' (foldlUn sAnd STrue unliftedBools))  ()
